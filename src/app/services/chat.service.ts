@@ -58,6 +58,7 @@ export class ChatService {
   }
 
   logout(): void {
+    this.user = {};
     this.auth.signOut();
   }
 }
