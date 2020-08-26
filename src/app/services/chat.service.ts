@@ -3,6 +3,8 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -12,9 +14,19 @@ import { Message } from '../interfaces/message.interface';
 })
 export class ChatService {
   private itemsCollection: AngularFirestoreCollection<Message>;
+  user: any = {};
   chats: Message[] = [];
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore, public auth: AngularFireAuth) {
+    this.auth.authState.subscribe((user) => {
+      console.log(user);
+      if (!user) {
+        return;
+      }
+      this.user.name = user.displayName;
+      this.user.uid = user.uid;
+    });
+  }
 
   uploadMessages(): Observable<Message[]> {
     this.itemsCollection = this.afs.collection<Message>('chats', (ref) =>
@@ -39,5 +51,13 @@ export class ChatService {
       date: new Date().getTime(),
     };
     return this.itemsCollection.add(message);
+  }
+
+  login(): void {
+    this.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  }
+
+  logout(): void {
+    this.auth.signOut();
   }
 }
