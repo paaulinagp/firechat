@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "firechat-ce60d": {
+      "hosting": {
+        "fireChat": [
+          "firechat-ce60d"
+        ]
+      }
+    }
+  }
+}
