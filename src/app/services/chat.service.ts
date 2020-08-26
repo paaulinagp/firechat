@@ -17,10 +17,15 @@ export class ChatService {
   constructor(private afs: AngularFirestore) {}
 
   uploadMessages(): Observable<Message[]> {
-    this.itemsCollection = this.afs.collection<Message>('chats');
+    this.itemsCollection = this.afs.collection<Message>('chats', (ref) =>
+      ref.orderBy('date', 'desc').limit(5)
+    );
     return this.itemsCollection.valueChanges().pipe(
       map((messages: Message[]) => {
         this.chats = messages;
+        this.chats = this.chats.sort((chat1: any, chat2: any) => {
+          return chat1.date - chat2.date;
+        });
         return messages;
       })
     );
