@@ -10,8 +10,4 @@ export class LoginComponent implements OnInit {
   constructor(public chatService: ChatService) {}
 
   ngOnInit(): void {}
-
-  login(type: string): void {
-    this.chatService.login();
-  }
 }

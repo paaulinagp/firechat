@@ -53,8 +53,12 @@ export class ChatService {
     return this.itemsCollection.add(message);
   }
 
-  login(): void {
-    this.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  login(provider: string): void {
+    if (provider === 'google') {
+      this.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    } else {
+      this.auth.signInWithPopup(new auth.TwitterAuthProvider());
+    }
   }
 
   logout(): void {
