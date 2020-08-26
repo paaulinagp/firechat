@@ -46,9 +46,10 @@ export class ChatService {
   addMessage(text: string): Promise<any> {
     // TODO
     const message: Message = {
-      userName: 'Paulina',
+      userName: this.user.name,
       message: text,
       date: new Date().getTime(),
+      uid: this.user.uid,
     };
     return this.itemsCollection.add(message);
   }
